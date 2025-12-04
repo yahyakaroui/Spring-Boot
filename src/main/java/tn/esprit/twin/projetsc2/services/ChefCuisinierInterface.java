@@ -10,7 +10,10 @@ public interface ChefCuisinierInterface {
     List<ChefCuisinier> retrieveAllChefs();
     public ChefCuisinier retrieveChef(Long idChefCuisinier);
     ChefCuisinier addChef(ChefCuisinier c);
-    ChefCuisinier updateChef(ChefCuisinier c);
+    ChefCuisinier updateChef(ChefCuisinier c,Long idChefCuisinier);
     void removeChef(Long idChefCuisinier);
-    List<ChefCuisinier> addChef(List<ChefCuisinier> chefCuisiniers);
+    List<ChefCuisinier> addChefs(List<ChefCuisinier> chefCuisiniers);
+    ChefCuisinier affecterChefCuisinierAMenu(Long idChefCuisinier, Long idMenu);
+    ChefCuisinier desaffecterChefCuisinierDuMenu(Long idMenu, Long
+            idChefCuisinier);
 }

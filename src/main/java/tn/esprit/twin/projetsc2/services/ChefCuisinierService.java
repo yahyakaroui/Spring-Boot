@@ -4,7 +4,9 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tn.esprit.twin.projetsc2.entities.ChefCuisinier;
+import tn.esprit.twin.projetsc2.entities.Menu;
 import tn.esprit.twin.projetsc2.repository.ChefCuisinierRepo;
+import tn.esprit.twin.projetsc2.repository.MenuRepo;
 
 import java.util.List;
 @Service
@@ -12,6 +14,7 @@ import java.util.List;
 public class ChefCuisinierService implements ChefCuisinierInterface{
 
     private ChefCuisinierRepo chefCuisinierRepo;
+    private MenuRepo menuRepo;
     @Override
     public List<ChefCuisinier> retrieveAllChefs() {
         return chefCuisinierRepo.findAll();
@@ -28,7 +31,8 @@ public class ChefCuisinierService implements ChefCuisinierInterface{
     }
 
     @Override
-    public ChefCuisinier updateChef(ChefCuisinier c) {
+    public ChefCuisinier updateChef(ChefCuisinier c, Long idChefCuisinier) {
+        c.setIdChefCuisinier(idChefCuisinier);
         return chefCuisinierRepo.save(c);
     }
 
@@ -38,7 +42,32 @@ public class ChefCuisinierService implements ChefCuisinierInterface{
     }
 
     @Override
-    public List<ChefCuisinier> addChef(List<ChefCuisinier> chefCuisiniers) {
+    public List<ChefCuisinier> addChefs(List<ChefCuisinier> chefCuisiniers) {
         return chefCuisinierRepo.saveAll(chefCuisiniers);
+    }
+
+    @Override
+    public ChefCuisinier affecterChefCuisinierAMenu(Long idChefCuisinier, Long idMenu) {
+        ChefCuisinier chefCuisinier=chefCuisinierRepo.findById(idChefCuisinier).orElse(null);
+        Menu menu =menuRepo.findById(idMenu).orElse(null);
+        if(chefCuisinier!=null && menu!=null){
+            //affecter le chef cuisinier au menu
+            menu.getChefCuisiniers().add(chefCuisinier);
+            return chefCuisinierRepo.save(chefCuisinier);
+        }
+    return null;
+    }
+
+    @Override
+    public ChefCuisinier desaffecterChefCuisinierDuMenu(Long idMenu, Long idChefCuisinier) {
+        ChefCuisinier chefCuisinier=chefCuisinierRepo.findById(idChefCuisinier).orElse(null);
+        Menu menu =menuRepo.findById(idMenu).orElse(null);
+        if(chefCuisinier!=null && menu!=null){
+            //désaffecter le chef cuisinier du menu
+            menu.getChefCuisiniers().remove(chefCuisinier);
+            return chefCuisinierRepo.save(chefCuisinier);
+
+        }
+       return null;
     }
 }

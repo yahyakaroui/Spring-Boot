@@ -2,34 +2,34 @@ package tn.esprit.twin.projetsc2.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.time.LocalDate;
 
-
-@Data
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
 public class Commande {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idCommande;
-
     private LocalDate dateCommande;
     private Integer pourcentageRemise;
     private Float totalRemise;
     private Float totalCommande;
     private Long note;
-
-    // 🔗 Relation avec Client
+    // Relation avec Client
     @ManyToOne
-    @JoinColumn(name = "idClient")
     @JsonIgnore
+    @JoinColumn(name = "idClient")
     private Client client;
-
-    // 🔗 Relation avec Menu
+    // Relation avec Menu
     @ManyToOne
     @JoinColumn(name = "idMenu")
-    @JsonIgnore
     private Menu menu;
 
     public Long getIdCommande() {

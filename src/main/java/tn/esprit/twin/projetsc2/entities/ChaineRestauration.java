@@ -1,13 +1,17 @@
 package tn.esprit.twin.projetsc2.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.util.List;
 
 @Entity
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class ChaineRestauration {
     @Id
     @GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
@@ -16,6 +20,7 @@ public class ChaineRestauration {
     private LocalDate dateCreation;
 
     @OneToMany(mappedBy = "chaineRestauration" , cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
     List<Restauration> restaurations;
 
 
